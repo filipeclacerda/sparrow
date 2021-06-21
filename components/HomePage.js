@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import firebase from '../services/firebase'
 import { useList } from 'react-firebase-hooks/database'
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, FlatList, Platform, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, FlatList, Platform, TextInput, Alert } from 'react-native';
 import { Button, Card, Paragraph, Avatar, FAB } from 'react-native-paper';
 
 
@@ -61,9 +61,15 @@ const styles = StyleSheet.create({
 
 const HomePage = () => {
     const [cards, loading, error] = useList(firebase.getAll().ref())    
+    let reversedCards = cards.reverse()
     const [input, setInput] = useState('');
     const handlePost = () =>{
-        makePost(localStorage.getItem('id'), localStorage.getItem('profile'), input, localStorage.getItem('name'))
+        if(input != ''){
+            makePost(localStorage.getItem('id'), localStorage.getItem('profile'), input, localStorage.getItem('name'))
+        }
+        else{
+             alert('digite algo antes de enviar')
+        }
     }
     const db = firebase.getAll();
     function makePost(userID, profile, input, name){
@@ -101,12 +107,12 @@ const HomePage = () => {
             <TouchableOpacity
                 style={styles.button}
                 onPress={handlePost} 
-            >POSTAR
+            ><Text>POSTAR</Text>
             </TouchableOpacity>
             </View>
             <FlatList
-                data={cards}
-                keyExtractor={item => item.id}
+                data={reversedCards}
+                keyExtractor={item => item.ref}
                 renderItem={({item}) =>
                     <Card style={styles.card}>
                         <Card.Title title={item.val().autor}
