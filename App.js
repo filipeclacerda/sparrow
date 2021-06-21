@@ -1,20 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
+import React, { useEffect, useState } from 'react';
+import Login from './components/Login'
+import { Button, StyleSheet, Text, View, AsyncStorage } from 'react-native';
+import { getDatabase, ref, set } from "firebase/database";
+import firebase from './services/firebase'
 export default function App() {
+let userID
+
+  const teste = () => {
+    localStorage.clear()
+  }
+
+const db = firebase.getAll();
+const [view, setView] = useState('login');
+userID =localStorage.getItem('id')
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <Login/>
   );
+
+
+
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#96beff',
     alignItems: 'center',
     justifyContent: 'center',
   },
