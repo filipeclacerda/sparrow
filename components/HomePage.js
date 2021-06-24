@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import firebase from '../services/firebase'
+import CardQuote from './card.component'
 import { useList } from 'react-firebase-hooks/database'
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, FlatList, Platform, TextInput, Alert } from 'react-native';
 import { Button, Card, Paragraph, Avatar, FAB } from 'react-native-paper';
@@ -60,8 +61,8 @@ const styles = StyleSheet.create({
 
 
 const HomePage = () => {
-    const [cards, loading, error] = useList(firebase.getAll().ref())    
-    let reversedCards = cards.reverse()
+    const [cards, loading, error] = useList(firebase.getAll().ref()) 
+    const reversedCards = cards.reverse()
     const [input, setInput] = useState('');
     const handlePost = () =>{
         if(input != ''){
@@ -79,6 +80,9 @@ const HomePage = () => {
         ref: n,
         autor: name,
         texto: input,
+        likedBy: [
+            0: false,
+        ],
         profile_picture : profile,
         likes: 0
         })
@@ -89,10 +93,18 @@ const HomePage = () => {
 
         });
     }
+    function checkLike(userID, ref, likedBy){
+        if(likedBy[userID] == true){
+            console.log(likedBy[userID])
+            //setLikeButton('heart')
+        }
+        
+    }
     let userID = localStorage.getItem('id')
     const handleText = (text) => {
         setInput(text)
     }
+    
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.post}>
@@ -111,36 +123,20 @@ const HomePage = () => {
             </TouchableOpacity>
             </View>
             <FlatList
-                data={reversedCards}
+                data={cards}
                 keyExtractor={item => item.ref}
                 renderItem={({item}) =>
-                    <Card style={styles.card}>
-                        <Card.Title title={item.val().autor}
-                        titleStyle={{ fontSize: 20, color: '#f9f1f0' }}
-                        left={() =>
-                            <Avatar.Image size={42} source={{ uri: item.val().profile_picture}}/>
-                        } />
-                        <Card.Content style={styles.content}>
-                            <Paragraph style={styles.quote}>{item.val().texto}</Paragraph>
-                        </Card.Content>
-                        <Card.Actions style={styles.actions}>
-                            <Button 
-                                icon= "share-variant"
-                                color='#541616'
-                                labelStyle={{ fontSize: 24 }}
-                            />
-                            
-                            <Button 
-                                icon= {'heart'}
-                                color='#541616'
-                                labelStyle={{ fontSize: 24 }}
-                            >
-                            {item.val().likes}
-                            </Button>
-                            
-                                
-                        </Card.Actions>
-                    </Card>}>
+                <CardQuote
+                    key={item.val().ref}
+                    texto={item.val().texto}
+                    autor={item.val().autor}
+                    profile_picture={item.val().profile_picture}
+                    likes={item.val().likes}
+                    referencia={item.val().ref}
+                    likedUser={item.val().likedBy[userID]}
+                    
+                />
+                    }>
 
                 </FlatList>
         </SafeAreaView>
