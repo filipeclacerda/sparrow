@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, FlatList, Platform, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, FlatList, Platform, TextInput, Alert, Share } from 'react-native';
 import { Button, Card, Paragraph, Avatar } from 'react-native-paper';
 import firebase from '../services/firebase'
 
@@ -59,6 +59,27 @@ const styles = StyleSheet.create({
 const CardQuote = ({ texto, autor, profile_picture, likes, likedUser, referencia }) => {
     const [likeButton, setLikeButton] = useState(likedUser ? "heart" : "heart-outline");
     const db = firebase.getAll();
+
+    const onShare = async () => {
+        try {
+        const result = await Share.share({
+            message:
+            autor + ' - ' + texto,
+        });
+        if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+            // shared with activity type of result.activityType
+            } else {
+            // shared
+            }
+        } else if (result.action === Share.dismissedAction) {
+            // dismissed
+        }
+        } catch (error) {
+        alert(error.message);
+        }
+    };
+
     return (
         <Card style={styles.card}>
             <Card.Title title={autor}
@@ -74,6 +95,7 @@ const CardQuote = ({ texto, autor, profile_picture, likes, likedUser, referencia
                     icon= "share-variant"
                     color='#541616'
                     labelStyle={{ fontSize: 24 }}
+                    onPress={onShare}
                 />
                 <Button 
                     icon= {likeButton}

@@ -21,18 +21,25 @@ const Login = () =>{
       })
   }
     return(
-        <View >
+        <View style={styles.login}>
         { !userID ? (
-            <View style={styles.container}>
-            <Image
-            style={styles.logo}
-            source={{uri: 'https://c0.klipartz.com/pngpicture/487/479/gratis-png-silueta-de-aguila-pajaro-fugle.png',}}
-            />
-            <TouchableOpacity
-                style={styles.button}
-                onPress={handleLogin}>
-             <Text>Login com a conta do Google</Text>
-            </TouchableOpacity>
+            <View style={styles.login}>
+              <Image
+              style={styles.logo}
+              source={{uri: 'https://static.vecteezy.com/system/resources/previews/001/205/599/non_2x/bird-png.png',}}
+              />
+              <Text style={{fontSize: 30, margin: 10}}>
+                Bem vindo ao Sparrow,
+              </Text>
+              <Text style={{fontSize: 15}}>
+                faça seu login abaixo.
+              </Text>
+               
+              <TouchableOpacity
+                  style={styles.button}
+                  onPress={handleLogin}>
+              <Text>Login com a conta do Google</Text>
+              </TouchableOpacity>
             </View>
             ) : (<View style={styles.container}>
             <HomePage/>
@@ -50,16 +57,25 @@ const styles= StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    
+  },
+  login: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#fff5f4",
   },
   logo: {
-    width: 300,
-    height: 200,
+    marginTop: 100,
+    margin: 50,
+    width: 100,
+    height: 100,
   },
   button: {
     alignItems: "center",
     backgroundColor: "#e8b4b8",
     borderRadius: 20,
     padding: 10,
+    margin:50,
     fontFamily: 'Trebuchet MS'
   },
 
