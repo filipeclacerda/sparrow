@@ -2,23 +2,15 @@ import firebase from 'firebase/app';
 import 'firebase/firebase-database'
 import { getAuth, setPersistence, signInWithRedirect, inMemoryPersistence, GoogleAuthProvider } from "firebase/auth";
 
-//Importante importar o serviço de auth
+//Importante importar o serviÃ§o de auth
 import 'firebase/auth';
 
 
-const config = {
-  apiKey: "AIzaSyD-7zT1yhQ2vMpQkjqin5xwjFHuqAV8-9g",
-  authDomain: "sparrow-b9591.firebaseapp.com",
-  databaseURL: "https://sparrow-b9591-default-rtdb.firebaseio.com",
-  projectId: "sparrow-b9591",
-  storageBucket: "sparrow-b9591.appspot.com",
-  messagingSenderId: "1021744331516",
-  appId: "1:1021744331516:web:05754ba77544df814af579"
-};
+const config = require('../config/firebaseCreds.js')
 
 firebase.initializeApp(config);
 
-//Iniciar o serviço de auth
+//Iniciar o serviÃ§o de auth
 
 
 const persistence = firebase.auth.Auth.Persistence.LOCAL;
@@ -34,7 +26,7 @@ const getAll = () => {
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account'});
 
-//Exporta a função de login
+//Exporta a funÃ§Ã£o de login
 export const singInWithGoogle = () => auth.signInWithPopup(provider);
 export default{
   getAll
